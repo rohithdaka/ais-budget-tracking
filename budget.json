@@ -1,0 +1,25 @@
+([
+    { 'name': 'Diwali 2015',
+    'items': [
+        {'description': 'cutlery',
+        'type':'expense',
+        'cost': 20},
+        {'description': 't-mobile sponsorship',
+        'type':'income',
+        'cost': 500}
+        ]
+    },
+    { 'name': 'Garba 2015',
+    'items': [
+        {'description': 'tables',
+        'type':'expense',
+        'cost': 100},
+        {'description': 'desi opt sponsorship',
+        'type':'income',
+        'cost': 50},
+        {'description': 'food',
+        'type':'expense',
+        'cost': 380}
+        ]
+    }
+])

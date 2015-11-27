@@ -1,76 +1,11 @@
 <!doctype html>
-<!--<script src="js/mithril.min.js"></script>-->
+<html>
+<title>AIS Expense Reports </title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/mithril/0.2.0/mithril.min.js"></script>
-<script>
 
-var budget = {};
+<body>
+<script src="js/app.js"></script>
 
-//content for page header
-var siteHeader = function () {};
+</body>
 
-
-var siteBody = function (){
-    return [
-        m("h1","AIS Budget Expense Report"),
-        reportList()
-    ]
-};
-
-var reportList = function(control){
-    return event.map(function(e,i){
-            return m("table",[ 
-                m("caption",e.name),
-                e.items.map(function(it){
-                    return m("tr",{class: it.type},
-                             m("td",
-                               m("input[type=text]",{value: it.description})
-                               ),
-                             m("td",
-                               m("input[type=number]",{value: it.cost})
-                               )
-                             );
-  
-                })
-        ]);
-    });
-};
-
-                     
-                    
-                     
-var event = [
-    { 'name': 'Diwali 2015',
-    'items': [
-        {'description': 'cutlery',
-        'type':'expense',
-        'cost': 20},
-        {'description': 't-mobile sponsorship',
-        'type':'income',
-        'cost': 500}
-        ]
-    },
-    { 'name': 'Garba 2015',
-    'items': [
-        {'description': 'tables',
-        'type':'expense',
-        'cost': 100},
-        {'description': 'desi opt sponsorship',
-        'type':'income',
-        'cost': 50},
-        {'description': 'food',
-        'type':'expense',
-        'cost': 380}
-        ]
-    }
-    ];
-
-
-budget.view = function(control){
-    return m("html",[
-        m("head",siteHeader()),
-        m("body",siteBody(control))
-    ]);
-};
-
-m.mount(document, budget);
-</script>
+</html>

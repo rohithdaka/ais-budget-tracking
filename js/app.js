@@ -22,14 +22,24 @@ var ExpenseItem = {
              }
 };
 
+var ExpenseInput = {
+    view: function(ctrl,args){
+
+
+    }
+};
+
 var ExpenseTable = {
     view: function(ctrl,args){
             table = m('table',[
                 m('caption', m.component(EventTitle,{name: args.name, 'year': args.year}) ),
-                m.component(ExpenseItem,{'expense':'expense','category':'category','amount':'amount'}),
-                args.items.map(function(item){
-                    return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});
-                })
+                m('thead',m.component(ExpenseItem,{'expense':'expense','category':'category','amount':'amount'})),
+                m('tbody',[
+                    args.items.map(function(item){
+                        return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});
+                    }),
+                    m.component(ExpenseItem,{'expense': 'item.expense', 'category': 'item.category', 'amount': 'item.amount'})
+                ])
             ]);
             return table;
         }
@@ -57,12 +67,12 @@ var expenseReports = [
 
 var HomePage = {
     view: function(ctrl,args){
-        return m('div',[
+        return [
             m.component(HeadLine,{text: "AIS Expense Reports"}),
             expenseReports.map(function(eventReport){
                 return m.component(ExpenseTable,eventReport); 
             })
-        ]);
+        ];
     }
 };
 

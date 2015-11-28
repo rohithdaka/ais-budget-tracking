@@ -14,22 +14,28 @@ var EventTitle = {
 
 var ExpenseItem = {
     view: function(ctrl,args){
-            return m('tr',[
-                 m('td',args.expense),
-                 m('td',args.category),
-                 m('td',args.amount)
-                 ]);
-             }
+        return m('tr',[
+            m('td',args.expense),
+            m('td',args.category),
+            m('td',args.amount)
+            ]);
+    }
 };
 
 var ExpenseInput = {
     view: function(ctrl,args){
-
-
+        return m('tr',[
+            m('td',m('input[type=text]')),
+            m('td',m('input[type=text]')),
+            m('td',m('input[type=text]'))
+            ]);
     }
 };
 
 var ExpenseTable = {
+    controller: function(args){
+
+    },
     view: function(ctrl,args){
             table = m('table',[
                 m('caption', m.component(EventTitle,{name: args.name, 'year': args.year}) ),
@@ -38,7 +44,7 @@ var ExpenseTable = {
                     args.items.map(function(item){
                         return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});
                     }),
-                    m.component(ExpenseItem,{'expense': 'item.expense', 'category': 'item.category', 'amount': 'item.amount'})
+                    m.component(ExpenseInput)
                 ])
             ]);
             return table;

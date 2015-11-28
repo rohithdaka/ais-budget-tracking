@@ -14,11 +14,16 @@ var EventTitle = {
 
 var ExpenseItem = {
     view: function(ctrl,args){
-        return m('tr',[
+        var exp_item = [
             m('td',args.expense),
             m('td',args.category),
             m('td',args.amount)
-            ]);
+            ];
+        if(!args.isHead && 1){
+            exp_item[3] = 
+                m('td',m('input[type=button]',{value:"Remove"}));
+        }
+        return m('tr',exp_item);
     }
 };
 
@@ -27,7 +32,8 @@ var ExpenseInput = {
         return m('tr',[
             m('td',m('input[type=text]')),
             m('td',m('input[type=text]')),
-            m('td',m('input[type=text]'))
+            m('td',m('input[type=text]')),
+            m('td',m('input[type=button]',{value:"Add"}))
             ]);
     }
 };
@@ -39,7 +45,7 @@ var ExpenseTable = {
     view: function(ctrl,args){
             table = m('table',[
                 m('caption', m.component(EventTitle,{name: args.name, 'year': args.year}) ),
-                m('thead',m.component(ExpenseItem,{'expense':'expense','category':'category','amount':'amount'})),
+                m('thead',m.component(ExpenseItem,{'expense':'expense','category':'category','amount':'amount','isHead': true})),
                 m('tbody',[
                     args.items.map(function(item){
                         return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});

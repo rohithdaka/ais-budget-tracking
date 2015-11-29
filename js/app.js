@@ -28,12 +28,18 @@ var ExpenseItem = {
 };
 
 var ExpenseInput = {
+    controller: function(args){
+        var ctrl = this;
+        ctrl.e = m.prop('expense');
+        ctrl.c = m.prop('category');
+        ctrl.a = m.prop(0);
+    },
     view: function(ctrl,args){
         return m('tr',[
-            m('td',m('input[type=text]')),
-            m('td',m('input[type=text]')),
-            m('td',m('input[type=text]')),
-            m('td',m('input[type=button]',{value:"Add"}))
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.e), value: ctrl.e()})),
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.c), value: ctrl.c()})),
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.a), value: ctrl.a()})),
+            m('td',m('input[type=button]',{value:"Add", onclick: ctrl.addItem}))
             ]);
     }
 };
@@ -50,7 +56,7 @@ var ExpenseTable = {
                     args.items.map(function(item){
                         return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});
                     }),
-                    m.component(ExpenseInput)
+                    m.component(ExpenseInput,args)
                 ])
             ]);
             return table;

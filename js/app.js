@@ -20,32 +20,39 @@ var ExpenseItem = {
             m('td',args.amount)
             ];
         if(!args.isHead && 1){
-            exp_item[3] = 
-                m('td',m('input[type=button]',{value:"Remove"}));
+            exp_item.push(m('td',m('button[type=button]',"Remove")));
         }
         return m('tr',exp_item);
     }
 };
 
 var ExpenseInput = {
+    getData: function(){
+        return {e: m.prop('expense'), c: m.prop('category'), a: m.prop(0) };
+    },
+    addToTable: function(data,args){
+        var eventIndex= expenseReports.indexOf(args);
+        expenseReports[eventIndex].items.push({'expense': data.e(), 'category': data.c(), 'amount': data.a()});
+    },
     controller: function(args){
-        var ctrl = this;
-        ctrl.e = m.prop('expense');
-        ctrl.c = m.prop('category');
-        ctrl.a = m.prop(0);
+        this.data = ExpenseInput.getData();
+        this.addItem = function(){
+            ExpenseInput.addToTable(this.data,args);
+        }.bind(this)
     },
     view: function(ctrl,args){
         return m('tr',[
-            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.e), value: ctrl.e()})),
-            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.c), value: ctrl.c()})),
-            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.a), value: ctrl.a()})),
-            m('td',m('input[type=button]',{value:"Add", onclick: ctrl.addItem}))
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.data.e), value: ctrl.data.e()})),
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.data.c), value: ctrl.data.c()})),
+            m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.data.a), value: ctrl.data.a()})),
+            m('td',m('button[type=button]',{onclick: ctrl.addItem},"Add"))
             ]);
     }
 };
 
 var ExpenseTable = {
     controller: function(args){
+        //console.log("Table call")
 
     },
     view: function(ctrl,args){

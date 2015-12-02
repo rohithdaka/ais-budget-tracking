@@ -81,6 +81,31 @@ var ExpenseTable = {
             return table;
         }
 };
+
+var EventInput = {
+    getData: function(){
+        return {name: m.prop('Event Name'),year:m.prop('year'),items:m.prop([])};
+    },
+    addToExpenseReports: function(data,args){
+        expenseReports.push({name:data.name(),year:data.year(),items:data.items()});
+    },
+    controller: function(args){
+        this.data = EventInput.getData();
+        this.addEvent = function(){
+            EventInput.addToExpenseReports(this.data);
+        }.bind(this)
+    },
+    view: function(ctrl,args){
+        return m('table',
+            m('tr',[
+                m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.data.name), value: ctrl.data.name()})),
+                m('td',m('input[type=text]',{onchange: m.withAttr("value",ctrl.data.year), value: ctrl.data.year()})),
+                m('td',m('button[type=button]',{onclick: ctrl.addEvent},"Add Event"))
+                ])
+            );
+    }
+};
+
 //temporary json till it is replaced with a get request
 var expenseReports = [
     { 
@@ -108,7 +133,9 @@ var HomePage = {
             m.component(HeadLine,{text: "AIS Expense Reports"}),
             expenseReports.map(function(eventReport){
                 return m.component(ExpenseTable,eventReport); 
-            })
+            }),
+            //Only for authenticated users 
+            m.component(EventInput)
         ];
     }
 };

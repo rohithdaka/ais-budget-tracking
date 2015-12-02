@@ -13,14 +13,25 @@ var EventTitle = {
 };
 
 var ExpenseItem = {
-    view: function(ctrl,args){
+    //here args contain Object representation of particular item.. and extras is Object representation of Event
+    removeFromTable: function(args,extras){
+        var eventIndex = expenseReports.indexOf(extras);
+        var itemIndex = (expenseReports[eventIndex].items).indexOf(args);
+        expenseReports[eventIndex].items.splice(itemIndex,1);
+    },
+    controller: function(args,extras){
+        this.removeItem = function(){
+            ExpenseItem.removeFromTable(args,extras);
+        }.bind(this)
+    },
+    view: function(ctrl,args,extras){
         var exp_item = [
             m('td',args.expense),
             m('td',args.category),
             m('td',args.amount)
             ];
         if(!args.isHead && 1){
-            exp_item.push(m('td',m('button[type=button]',"Remove")));
+            exp_item.push(m('td',m('button[type=button]',{onclick: ctrl.removeItem},"Remove")));
         }
         return m('tr',exp_item);
     }
@@ -52,17 +63,18 @@ var ExpenseInput = {
 
 var ExpenseTable = {
     controller: function(args){
-        //console.log("Table call")
 
     },
     view: function(ctrl,args){
-            table = m('table',[
+            var table = m('table',[
                 m('caption', m.component(EventTitle,{name: args.name, 'year': args.year}) ),
                 m('thead',m.component(ExpenseItem,{'expense':'expense','category':'category','amount':'amount','isHead': true})),
                 m('tbody',[
                     args.items.map(function(item){
-                        return m.component(ExpenseItem,{'expense': item.expense, 'category': item.category, 'amount': item.amount});
+                        //need to send event Table Object (args) to make it easy for removal of item
+                        return m.component(ExpenseItem,item,args);
                     }),
+                    //Only authenticated users would have the next line.
                     m.component(ExpenseInput,args)
                 ])
             ]);
